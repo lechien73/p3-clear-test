@@ -1,3 +1,9 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+import os
+
+os.system('cls')
+
+name = input("What's yer name, pal?")
+
+os.system('cls')
+
+print(f"Howya {name}?")
