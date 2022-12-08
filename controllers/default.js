@@ -9,12 +9,14 @@ exports.install = function () {
 
 };
 
+async function getClientAddress() {
+
+    const response = await fetch("https://api.ipify.org?format=json");
+
+    return await response.json();
+}
+
 function socket() {
-    
-    getClientAddress = function (req) {
-        return (req.headers['x-forwarded-for'] || '').split(',')[0] 
-        || req.connection.remoteAddress;
-    };
 
     this.encodedecode = false;
     this.autodestroy();
@@ -22,7 +24,7 @@ function socket() {
     this.on('open', function (client) {
 
         // Spawn terminal
-        client.tty = Pty.spawn('python3', ['run.py', getClientAddress], {
+        client.tty = Pty.spawn('python3', ['run.py', getClientAddress()], {
             name: 'xterm-color',
             cols: 80,
             rows: 24,
