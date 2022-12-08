@@ -11,7 +11,7 @@ exports.install = function () {
 
 function socket() {
     
-    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     this.encodedecode = false;
     this.autodestroy();
