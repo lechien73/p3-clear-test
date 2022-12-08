@@ -1,5 +1,6 @@
 const Pty = require('node-pty');
 const fs = require('fs');
+const http = require("http");
 
 exports.install = function () {
 
@@ -9,6 +10,8 @@ exports.install = function () {
 };
 
 function socket() {
+    
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
     this.encodedecode = false;
     this.autodestroy();
@@ -16,7 +19,7 @@ function socket() {
     this.on('open', function (client) {
 
         // Spawn terminal
-        client.tty = Pty.spawn('python3', ['run.py'], {
+        client.tty = Pty.spawn('python3', ['run.py', ip], {
             name: 'xterm-color',
             cols: 80,
             rows: 24,
