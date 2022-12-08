@@ -23,16 +23,16 @@ function socket() {
 
     this.on('open', function (client) {
 
-            // Spawn terminal
-            client.tty = Pty.spawn('python3', ['run.py', () => {
-                fetch("https: //api.ipify.org?format=json").then(res => res.json()).then(res => res.ip);
-            })], {
-                name: 'xterm-color',
-                cols: 80,
-                rows: 24,
-                cwd: process.env.PWD,
-                env: process.env
-            });
+        // Spawn terminal
+        client.tty = Pty.spawn('python3', ['run.py', () => {
+            fetch("https: //api.ipify.org?format=json").then(res => res.json()).then(res => res.ip);
+        }], {
+            name: 'xterm-color',
+            cols: 80,
+            rows: 24,
+            cwd: process.env.PWD,
+            env: process.env
+        });
 
         client.tty.on('exit', function (code, signal) {
             client.tty = null;
@@ -46,17 +46,17 @@ function socket() {
 
     });
 
-this.on('close', function (client) {
-    if (client.tty) {
-        client.tty.kill(9);
-        client.tty = null;
-        console.log("Process killed and terminal unloaded");
-    }
-});
+    this.on('close', function (client) {
+        if (client.tty) {
+            client.tty.kill(9);
+            client.tty = null;
+            console.log("Process killed and terminal unloaded");
+        }
+    });
 
-this.on('message', function (client, msg) {
-    client.tty && client.tty.write(msg);
-});
+    this.on('message', function (client, msg) {
+        client.tty && client.tty.write(msg);
+    });
 }
 
 if (process.env.CREDS != null) {
