@@ -9,17 +9,21 @@ exports.install = function () {
 
 };
 
-const ip = await fetch("https: //api.ipify.org?format=json").then(res => res.json()).then(res => res.ip);
+async function getClientIp() {
+    const res = await fetch("https: //api.ipify.org?format=json");
+    const data = await res.json();
+    return data.ip;
+}
 
 function socket() {
 
     this.encodedecode = false;
     this.autodestroy();
 
-    this.on('open', function (client) {
+    this.on('open', async function (client) {
 
         // Spawn terminal
-        client.tty = Pty.spawn('python3', ['run.py', ip], {
+        client.tty = Pty.spawn('python3', ['run.py', await getClientIp()], {
             name: 'xterm-color',
             cols: 80,
             rows: 24,
