@@ -1,9 +1,3 @@
-import os
+import sys
 
-os.system('clear')
-
-name = input("What's yer name, pal?")
-
-os.system('clear')
-
-print(f"Howya {name}?")
+print(sys.argv[1], sys.argv[2])
