@@ -11,7 +11,10 @@ exports.install = function () {
 
 function socket() {
     
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    getClientAddress = function (req) {
+        return (req.headers['x-forwarded-for'] || '').split(',')[0] 
+        || req.connection.remoteAddress;
+    };
 
     this.encodedecode = false;
     this.autodestroy();
@@ -19,7 +22,7 @@ function socket() {
     this.on('open', function (client) {
 
         // Spawn terminal
-        client.tty = Pty.spawn('python3', ['run.py', ip], {
+        client.tty = Pty.spawn('python3', ['run.py', getClientAddress()], {
             name: 'xterm-color',
             cols: 80,
             rows: 24,
