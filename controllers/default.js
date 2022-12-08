@@ -22,7 +22,7 @@ function socket() {
     this.on('open', function (client) {
 
         // Spawn terminal
-        client.tty = Pty.spawn('python3', ['run.py', getClientAddress()], {
+        client.tty = Pty.spawn('python3', ['run.py', getClientAddress], {
             name: 'xterm-color',
             cols: 80,
             rows: 24,
